@@ -27,69 +27,133 @@
   <h2 style=color:red><%= @message %>
 <% end %>
 
-<h2>Log in</h2>
 
-<form action="/" method="post" name="login_form">
-<table cellpadding=10px>
-  <tr>
-    <td>
-      Email</br>
-      <i>(to be used as username)</i>
-    </td>
-    <td>
-      <input type="text" name="email" style="display:inline;width:300px">
-    </td>
-  </tr>
+<% if !logged_in? %>
 
-  <tr>
-    <td>
-      Password
-    </td>
-    <td>
-      <input type="password" name="password" style="display:inline;width:300px">
-    </td>
-  </tr>
-</table>
-</br>
-<input type="submit" value="Log in" style="display:inline;margin-left:20px">
-</form>
+  <h2>Log in</h2>
+
+  <form action="/login" method="post" name="login_form">
+  <table cellpadding=10px>
+    <tr>
+      <td>
+        Email</br>
+        <i>(to be used as username)</i>
+      </td>
+      <td>
+        <input type="text" name="email" style="display:inline;width:300px">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Password
+      </td>
+      <td>
+        <input type="password" name="password" style="display:inline;width:300px">
+      </td>
+    </tr>
+  </table>
+  </br>
+  <input type="submit" value="Log in" style="display:inline;margin-left:20px">
+  </form>
+
+  <h2>Create account</h2>
+
+  <form action="/create" method="post" name="signup_form">
+  <table cellpadding=10px>
+    <tr>
+      <td>
+        Name</br>
+      </td>
+      <td>
+        <input type="text" name="name" style="display:inline;width:300px">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Email</br>
+        <i>(to be used as username)</i>
+      </td>
+      <td>
+        <input type="text" name="email" style="display:inline;width:300px">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Password
+      </td>
+      <td>
+        <input type="password" name="password" style="display:inline;width:300px">
+      </td>
+    </tr>
+  </table>
+  </br>
+  <input type="submit" value="Sign up" style="display:inline;margin-left:20px">
+  </form>
+
+
+<% else %>
+  <h2>Logged in as: <%= User.find(session[:id]).email %></h2>
+  <form method="post" action="/secret">
+    <input type="submit" value="Log out">
+  </form>
+<% end %>
 
 
 
+   <% if @error %>
+      <h2 style=color:red>
+        <%= @error %>
+      </h2>
+    <% end %>
 
+    <h2>Shorten URL</h2>
 
-<h2>Create account</h2>
+    Long URL:
+    <form style="display:inline" action="/urls" method="post" name="the_viewpost_form">
 
-<form action="/create" method="post" name="signup_form">
-<table cellpadding=10px>
-  <tr>
-    <td>
-      Name</br>
-    </td>
-    <td>
-      <input type="text" name="name" style="display:inline;width:300px">
-    </td>
-  </tr>
+      <input type="text" name="long_url" style="display:inline;width:300px" VALUE="http://">
 
-  <tr>
-    <td>
-      Email</br>
-      <i>(to be used as username)</i>
-    </td>
-    <td>
-      <input type="text" name="email" style="display:inline;width:300px">
-    </td>
-  </tr>
+      <input type="submit" value="Chomp it!" style="display:inline;margin-left:20px">
 
-  <tr>
-    <td>
-      Password
-    </td>
-    <td>
-      <input type="password" name="password" style="display:inline;width:300px">
-    </td>
-  </tr>
-</table>
-</br>
-<input type="submit" value="Sign up" style="display:inline;margin-left:20px">
-</form>
+    </form>
+    </br>
+    </br>
+    </br>
+    <table width=80% border=1>
+      <tr>
+        <td>
+          Short URL
+        </td>
+        <td>
+          Long URL
+        </td>
+        <td>
+          Click count
+        </td>
+        <td>
+          User
+        </td>
+      </tr>
+
+      <% if !all_url.nil? %>
+        <% all_url.reverse.each do |url| %>
+        <tr>
+          <td>
+            <a href="<%= url.short_url %>"><%= url.short_url %></a>
+          </td>
+          <td>
+            <a href="<%= url.long_url %>"><%= url.long_url %></a>
+          </td>
+          <td>
+            <%= url.click_count %>
+          </td>
+          <td>
+            <%= User.find(url.user_id).email if !url.user_id.nil? %>
+          </td>
+        </tr>
+        <% end %>
+      <% end %>
+    </table>
