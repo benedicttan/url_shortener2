@@ -1,0 +1,95 @@
+<!-- <div class="container">
+  <h1>Welcome to Sinatra!</h1>
+  <p>Hello, world!</p>
+
+  <table>
+    <tr>
+      <th>File Description</th>
+      <th>File Location</th>
+    </tr>
+    <tr>
+      <td>This view file</td>
+      <td><code><%= __FILE__.gsub(Sinatra::Application.root, '') %></code></td>
+    </tr>
+    <tr>
+      <td>The layout file</td>
+      <td><code><%= File.expand_path('../layout.erb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
+    </tr>
+    <tr>
+      <td>The current controller</td>
+      <td><code><%= File.expand_path('../../controllers/index.rb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
+    </tr>
+  </table>
+</div>
+ -->
+
+<% if @message %>
+  <h2 style=color:red><%= @message %>
+<% end %>
+
+<h2>Log in</h2>
+
+<form action="/" method="post" name="login_form">
+<table cellpadding=10px>
+  <tr>
+    <td>
+      Email</br>
+      <i>(to be used as username)</i>
+    </td>
+    <td>
+      <input type="text" name="email" style="display:inline;width:300px">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Password
+    </td>
+    <td>
+      <input type="password" name="password" style="display:inline;width:300px">
+    </td>
+  </tr>
+</table>
+</br>
+<input type="submit" value="Log in" style="display:inline;margin-left:20px">
+</form>
+
+
+
+
+
+<h2>Create account</h2>
+
+<form action="/create" method="post" name="signup_form">
+<table cellpadding=10px>
+  <tr>
+    <td>
+      Name</br>
+    </td>
+    <td>
+      <input type="text" name="name" style="display:inline;width:300px">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Email</br>
+      <i>(to be used as username)</i>
+    </td>
+    <td>
+      <input type="text" name="email" style="display:inline;width:300px">
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Password
+    </td>
+    <td>
+      <input type="password" name="password" style="display:inline;width:300px">
+    </td>
+  </tr>
+</table>
+</br>
+<input type="submit" value="Sign up" style="display:inline;margin-left:20px">
+</form>
